@@ -1,0 +1,228 @@
+#include<iostream>
+using namespace std;
+
+int main(){
+cout<<"Group 6 - Sudoku output"<<endl;
+/*Members: Nichole Cuizon, Cj Nicole Jacinto,  Jerrymei Bautista, Dexter Serdan, Joven Vecina*/
+    int sudoku[9][9];
+    cout<<"Sudoku Puzzle Program"<<endl;
+    cout<<"Please provide the Sudoku Program: "<<endl;
+    
+     for(int x = 0; x<9; x++){
+        string input_rows;
+        bool valid_input = false;
+        while(!valid_input){
+            cout<<"Enter the values for row "<<x+1<<": ";
+            cin>>input_rows;
+            if(input_rows.length() != 9){
+                cout<<"Input must be 9 digits."<<endl;
+            } else {
+                valid_input = true;
+            }
+        }
+        int row_val = stoi(input_rows);
+        for(int y=8; y>=0; y--){
+            sudoku[x][y]=row_val%10;
+            row_val/=10;
+        }
+    }
+            
+    while(true){
+        cout<<"The Sudoku Puzzle you entered is: "<<endl;
+        cout<<"    a b c   d e f   g h i"<<endl;
+        for(int x=0; x<9; x++){
+            if(x%3==0){
+                cout<<"  +-----------------------+"<<endl;
+            }
+        cout<<(1+x)<<" ";
+        for(int y=0;y<9;y++){
+            if(y%3==0){
+                cout<<"| ";
+            }
+            if(sudoku[x][y]==0){
+                cout<<"x ";
+            }else{
+                cout<<sudoku[x][y]<<" ";
+            }
+            if(y==8){
+                cout<<"|";
+            }
+        }
+        cout<<endl;
+        }
+        cout << "  +-----------------------+" << endl;
+    //sudoku table end
+    int row, col, choice, ans;
+    char col_char;
+    bool valid_input = false;
+
+    do {
+        cout << "What cell would you like to analyze? ";
+        cin >> col_char >> row;
+        col = col_char - 'a'+1;
+
+    if (row >= 1 && row <= 9 && col >= 1 && col <= 9) {
+        valid_input = true;
+    } else {
+        cout << "Invalid input. Please enter a valid cell (a1-i9)." << endl;
+    }
+} while (!valid_input);
+    
+    int row_values[9], col_values[9], startRow=3*((row-1)/3), startCol=3*((col-1)/3);
+    bool row_used[10]={false}, col_used[10]={false}, number[10]={false};
+    
+    for(int x=0; x<9;x++){
+        row_values[x]=sudoku[row-1][x];
+    }
+    cout<<"Row Values: ";
+        for(int x=0;x<9;x++){
+            if(row_values[x]==0){
+            }else{
+                cout<<row_values[x]<<", ";
+                row_used[row_values[x]]=true;
+                col_used[col_values[x]]=true;
+            }
+        }
+    cout<<endl;
+    
+    for(int y=0;y<9;y++){
+        col_values[y]=sudoku[y][col-1];
+    }
+    cout<<"Column Values: ";
+        for(int y=0;y<9;y++){
+            if(col_values[y]==0){
+            }else{
+                cout<<col_values[y]<<", ";
+                col_used[col_values[y]]=true;
+                row_used[row_values[y]]=true;
+            }
+        }
+    cout<<endl;
+        
+    cout<<"Region Values: ";
+    for(int x=startRow;x<startRow+3;x++){
+        for(int y=startCol;y<startCol+3;y++){
+            if(sudoku[x][y]==0){
+            }else{
+                cout<<sudoku[x][y]<<", ";
+                number[sudoku[x][y]]=true;
+            }
+        }
+    }
+    cout<<endl<<endl;
+    
+    cout<<"Hints in Rows: ";
+        for(int x=1; x<=9; x++){
+            if(!row_used[x]){
+                cout<<x<<", ";
+            }
+        }
+    cout<<endl;
+    
+    cout<<"Hints in Columns: ";
+        for(int y=1;y<=9;y++){
+            if(!col_used[y]){
+                cout<<y<<", ";
+            }
+        }
+    cout<<endl;
+    
+    cout<<"Hints in Region: ";
+        for(int z = 1; z<=9; z++){
+            if(!number[z]){
+                cout<<z<<", ";
+            }
+            number[z]=false;
+        }
+        cout<<endl;
+        
+    cout<<endl;
+    cout<<endl;
+    cout<<"What action do you like to perform?\n";
+    cout<<"1 - Provide an answer for this cell\n";
+    cout<<"2 - Check another cell\n";
+    cout<<"3 - Exit the application\n";
+    cout<<"Please enter your choice: ";
+    cin>>choice;
+//choice 1 - working
+    if(choice==1){
+        cout<<"Provide an answer: ";
+        cin>>ans;
+        bool valid_ans = {false};
+        while(!valid_ans){
+            if(ans<10&&ans>0){
+            sudoku[row-1][col-1]=ans;
+            cout<<"Sudoku updated!"<<endl;
+            valid_ans = true;
+            continue;
+            }else{
+            cout<<"Invalid Input (1-9)"<<endl;
+            cin>>ans;
+            }
+            if(!(cin>>ans)){
+            cout<<"Invalid Input (1-9)"<<endl;
+            return 1;
+            }
+        }
+    }
+//choice 2 - working
+    else if(choice==2){
+        continue;
+    }
+        
+//choice 3 - working
+    else if(choice==3){
+        cout<<"Program Ended";
+        break;
+    }
+    else if(!(cin>>choice)){
+        cout<<"Invalid Input (1-3)"<<endl;
+        return 1;
+    }
+        
+//choice 
+    else{
+    bool valid_choice = {false};
+    while(!valid_choice){
+        cout<<endl<<endl;
+        cout<<"Invalid choice"<<endl;
+        cout<<"What action do you like to perform?\n";
+        cout<<"1 - Provide an answer for this cell\n";
+        cout<<"2 - Check another cell\n";
+        cout<<"3 - Exit the application\n";
+        cout<<"Please enter your choice: ";
+        cin>>choice;
+        
+        if(choice==1){
+            valid_choice = true;
+            cout<<"Provide an answer: ";
+            cin>>ans;
+            bool valid_ans = {false};
+            while(!valid_ans){
+                if(ans<10&&ans>0){
+                    sudoku[row-1][col-1]=ans;
+                    cout<<"Sudoku updated!"<<endl;
+                    valid_ans = true;
+                    continue;
+                }else{
+                    cout<<"Invalid Input (1-9)"<<endl;
+                    cin>>ans;
+                }
+            }
+        }else if(choice==2){
+            valid_choice=true;
+            continue;
+        }else if(choice==3){
+            valid_choice=true;
+            cout<<"Program ended.";
+            return 0;
+        }else if(!(cin>>choice)){
+            cout<<"Invalid Input"<<endl;
+            return 1;
+            }
+    }
+    }   
+    }//while end            
+            
+    return 0;
+}
